@@ -1,0 +1,20 @@
+<div class="note-form-container">
+  <h2>New Note</h2>
+  <form (ngSubmit)="createNote()">
+    <mat-form-field>
+      <mat-label>Title</mat-label>
+      <input matInput [(ngModel)]="title" name="title"/>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Category</mat-label>
+      <input matInput [(ngModel)]="category" name="category"/>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Content</mat-label>
+      <textarea matInput [(ngModel)]="content" name="content" rows="8"></textarea>
+    </mat-form-field>
+    <button mat-flat-button color="primary" [disabled]="loading">Create</button>
+    <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+    <p class="error" *ngIf="error">{{ error }}</p>
+  </form>
+</div>

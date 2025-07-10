@@ -1,0 +1,32 @@
+<div *ngIf="!loading && note && !editMode" class="details-container">
+  <div class="note-header">
+    <h2>{{ note.title }}</h2>
+    <button mat-stroked-button color="primary" (click)="startEdit()">Edit</button>
+    <button mat-stroked-button color="warn" (click)="deleteNote()">Delete</button>
+  </div>
+  <div class="metadata">
+    <span *ngIf="note.category">#{{ note.category }}</span>
+    <span>{{ note.updated_at | date:'medium' }}</span>
+  </div>
+  <div class="content">
+    {{ note.content }}
+  </div>
+</div>
+<div *ngIf="editMode" class="editor-container">
+  <mat-form-field>
+    <mat-label>Title</mat-label>
+    <input matInput [(ngModel)]="editTitle" />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Category</mat-label>
+    <input matInput [(ngModel)]="editCategory" />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Content</mat-label>
+    <textarea matInput rows="10" [(ngModel)]="editContent"></textarea>
+  </mat-form-field>
+  <button mat-raised-button color="primary" (click)="saveEdit()">Save</button>
+  <button mat-button (click)="editMode=false">Cancel</button>
+</div>
+<mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+<p class="error" *ngIf="error">{{ error }}</p>

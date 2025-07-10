@@ -1,0 +1,23 @@
+.note-form-container {
+  max-width: 540px;
+  margin: 3vh auto;
+  background: #fff;
+  padding: 2rem 1.6rem;
+  border-radius: 1.5rem;
+  box-shadow: 0 4px 18px rgba(25,118,210,0.10);
+}
+h2 {
+  color: #1976d2;
+  margin-bottom: 1rem;
+}
+mat-form-field {
+  width: 100%;
+  margin-bottom: 1.2rem;
+}
+button[mat-flat-button] {
+  width: 40%;
+  margin-top: 0.6rem;
+}
+.error {
+  color: #d32f2f;
+}

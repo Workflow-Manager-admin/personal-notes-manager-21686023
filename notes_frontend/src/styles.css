@@ -1,1 +1,36 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --primary: #1976d2;
+  --secondary: #424242;
+  --accent: #ffeb3b;
+}
+
+html, body {
+  background: #f3f5fa;
+  min-height: 100%;
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+}
+
+/* Material theme palette override */
+.mat-primary .mat-button, .mat-raised-button.mat-primary, .mat-fab.mat-primary, .mat-flat-button.mat-primary,
+.mat-chip.mat-primary {
+  background: var(--primary);
+}
+.mat-accent .mat-fab, .mat-accent .mat-flat-button, .mat-accent .mat-chip {
+  background: var(--accent) !important;
+  color: #333 !important;
+}
+
+/* Custom minimal scrollbar */
+*::-webkit-scrollbar {
+  width: 7px;
+  background: #e8eaf6;
+}
+*::-webkit-scrollbar-thumb {
+  background: #c5cae9;
+  border-radius: 3px;
+}
+
+/* Utility global styles */
+a {
+  color: var(--primary);
+}

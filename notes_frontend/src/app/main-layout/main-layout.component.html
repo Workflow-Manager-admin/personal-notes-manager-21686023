@@ -1,0 +1,14 @@
+<mat-toolbar color="primary" class="mat-elevation-z2">
+  <span>Notes App</span>
+  <span class="spacer"></span>
+  <button *ngIf="auth.user$ | async" mat-button (click)="logout()">Logout</button>
+</mat-toolbar>
+<div class="layout">
+  <app-sidebar></app-sidebar>
+  <section class="main-content">
+    <router-outlet></router-outlet>
+  </section>
+</div>
+<button mat-fab class="fab" color="accent" routerLink="/add" aria-label="Add Note">
+  <mat-icon>add</mat-icon>
+</button>

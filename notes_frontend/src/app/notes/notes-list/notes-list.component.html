@@ -1,0 +1,27 @@
+<div class="search-row">
+  <mat-form-field>
+    <mat-label>Search notes</mat-label>
+    <input matInput (input)="onSearch($event)" [value]="searchTerm" />
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+</div>
+<div class="notes-list" *ngIf="!loading; else loadingTpl">
+  <mat-list>
+    <mat-list-item *ngFor="let note of notes" (click)="selectNote(note)">
+      <div class="note-item">
+        <span class="title">{{ note.title }}</span>
+        <small *ngIf="note.category" class="chip">{{ note.category }}</small>
+        <span class="excerpt">{{ note.content | slice:0:64 }}</span>
+        <span class="date">{{ note.updated_at | date:'short' }}</span>
+      </div>
+    </mat-list-item>
+  </mat-list>
+  <div *ngIf="notes.length == 0" class="empty-state">
+    <p>No notes found</p>
+  </div>
+</div>
+<ng-template #loadingTpl>
+  <div class="loading-state">
+    <mat-spinner diameter="36"></mat-spinner>
+  </div>
+</ng-template>

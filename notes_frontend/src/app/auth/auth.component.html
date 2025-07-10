@@ -1,0 +1,28 @@
+<div class="auth-container">
+  <h2>{{ isLoginMode ? "Sign In" : "Register" }}</h2>
+  <form [formGroup]="authForm" (ngSubmit)="submit()" autocomplete="on">
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" type="email"/>
+      <mat-error *ngIf="authForm.get('email')?.hasError('required')">Required</mat-error>
+      <mat-error *ngIf="authForm.get('email')?.hasError('email')">Invalid email</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Password</mat-label>
+      <input matInput formControlName="password" type="password" />
+      <mat-error *ngIf="authForm.get('password')?.hasError('required')">Required</mat-error>
+      <mat-error *ngIf="authForm.get('password')?.hasError('minlength')">Min 6 characters</mat-error>
+    </mat-form-field>
+
+    <button mat-flat-button color="primary" type="submit" [disabled]="loading">
+      {{ isLoginMode ? "Sign In" : "Register" }}
+    </button>
+    <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+    <p class="error" *ngIf="error">{{ error }}</p>
+  </form>
+  <span>
+    <a (click)="switchMode()" class="switch-link">
+      {{ isLoginMode ? "Need an account? Register" : "Already have an account? Sign in" }}
+    </a>
+  </span>
+</div>
