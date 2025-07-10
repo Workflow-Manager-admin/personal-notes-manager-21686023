@@ -41,7 +41,7 @@ export class NotesListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.auth.user$.subscribe(user => {
+    this.auth.user$.subscribe((user: any) => {
       if (!user) return;
       this.loadNotes(user.id);
     });
@@ -52,7 +52,7 @@ export class NotesListComponent implements OnInit {
     (query
       ? this.notesService.searchNotes(userId, query)
       : this.notesService.getNotes(userId)
-    ).subscribe(notes => {
+    ).subscribe((notes: Note[]) => {
       this.notes = category
         ? notes.filter(n => n.category === category)
         : notes;
@@ -64,7 +64,7 @@ export class NotesListComponent implements OnInit {
     const input = event.target as HTMLInputElement | null;
     const term = input?.value || '';
     this.searchTerm = term;
-    this.auth.user$.subscribe(user => {
+    this.auth.user$.subscribe((user: any) => {
       if (user) this.loadNotes(user.id, term, this.selectedCategory);
     });
   }

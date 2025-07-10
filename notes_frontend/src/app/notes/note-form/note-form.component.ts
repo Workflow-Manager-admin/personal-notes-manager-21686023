@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NotesService } from '../../services/notes.service';
+import { NotesService, Note } from '../../services/notes.service';
 import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -7,7 +7,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -43,7 +42,7 @@ export class NoteFormComponent {
       return;
     }
     this.loading = true;
-    this.auth.user$.subscribe(user => {
+    this.auth.user$.subscribe((user: any) => {
       if (!user) { this.error = 'Not authenticated!'; this.loading = false; }
       else {
         this.notesService.createNote({
@@ -52,7 +51,7 @@ export class NoteFormComponent {
           category: this.category,
           user_id: user.id
         }).subscribe({
-          next: note => {
+          next: (note: Note | null) => {
             this.loading = false;
             this.router.navigate(['/note', note!.id]);
           },

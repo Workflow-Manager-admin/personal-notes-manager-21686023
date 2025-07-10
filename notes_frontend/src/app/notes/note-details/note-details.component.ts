@@ -8,8 +8,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'note-details',
@@ -48,7 +46,7 @@ export class NoteDetailsComponent implements OnInit {
 
   loadNote(id: string): void {
     this.loading = true;
-    this.notesService.getNoteById(id).subscribe(note => {
+    this.notesService.getNoteById(id).subscribe((note: Note | null) => {
       this.note = note;
       this.loading = false;
     });
@@ -70,7 +68,7 @@ export class NoteDetailsComponent implements OnInit {
       content: this.editContent,
       category: this.editCategory
     }).subscribe({
-      next: updated => {
+      next: (updated: Note | null) => {
         this.note = updated!;
         this.editMode = false;
         this.loading = false;

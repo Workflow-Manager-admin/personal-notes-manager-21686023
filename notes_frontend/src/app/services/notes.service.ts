@@ -24,23 +24,23 @@ export class NotesService {
       .select('*')
       .eq('user_id', userId)
       .order('updated_at', { ascending: false })
-    .then(res => res.data || []));
+      .then((res: any) => res.data || []));
   }
 
   getNoteById(id: string): Observable<Note | null> {
     return from(this.supabase.getClient()
       .from('notes')
-      .select('*').eq('id', id).single().then(res => res.data));
+      .select('*').eq('id', id).single().then((res: any) => res.data));
   }
 
   createNote(note: Partial<Note>): Observable<Note | null> {
     return from(this.supabase.getClient()
-      .from('notes').insert(note).select().single().then(res => res.data));
+      .from('notes').insert(note).select().single().then((res: any) => res.data));
   }
 
   updateNote(id: string, update: Partial<Note>): Observable<Note | null> {
     return from(this.supabase.getClient()
-      .from('notes').update(update).eq('id', id).select().single().then(res => res.data));
+      .from('notes').update(update).eq('id', id).select().single().then((res: any) => res.data));
   }
 
   deleteNote(id: string): Observable<void> {
@@ -54,7 +54,7 @@ export class NotesService {
       .eq('user_id', userId)
       .or(`title.ilike.%${query}%,content.ilike.%${query}%`)
       .order('updated_at', { ascending: false })
-      .then(res => res.data || []));
+      .then((res: any) => res.data || []));
   }
 
   getCategories(userId: string): Observable<string[]> {
@@ -63,6 +63,6 @@ export class NotesService {
       .select('category')
       .eq('user_id', userId)
       .neq('category', null)
-      .then(res => Array.from(new Set((res.data || []).map((n: { category: string }) => n.category)).values()).filter((c): c is string => typeof c === "string" && c !== null)));
+      .then((res: any) => Array.from(new Set((res.data || []).map((n: { category: string }) => n.category)).values()).filter((c): c is string => typeof c === "string" && c !== null)));
   }
 }

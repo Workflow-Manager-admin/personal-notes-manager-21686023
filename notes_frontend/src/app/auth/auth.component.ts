@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
 
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -28,7 +29,11 @@ export class AuthComponent {
   error: string | null = null;
   authForm;
 
-  constructor(fb: FormBuilder, private auth: AuthService, private router: Router) {
+  constructor(
+    fb: FormBuilder,
+    private auth: AuthService,
+    private router: Router
+  ) {
     this.authForm = fb.nonNullable.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]

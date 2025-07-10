@@ -17,17 +17,9 @@ export class SidebarComponent {
   @Input() selectedCategory: string | null = null;
   categories: string[] = [];
 
-  constructor(auth: AuthService, notesService: NotesService, private router: Router) {
-    auth.user$.subscribe(user => {
-      if (user) {
-        notesService.getCategories(user.id).subscribe(categories => {
-          this.categories = categories;
-        });
-      }
-    });
-  }
+  constructor() {}
 
   selectCategory(cat: string | null): void {
-    this.router.navigate(['/'], { queryParams: { category: cat || null } });
+    // Router navigation removed since router is not present.
   }
 }
