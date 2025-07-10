@@ -29,11 +29,7 @@ export class AuthComponent {
   error: string | null = null;
   authForm;
 
-  constructor(
-    fb: FormBuilder,
-    private auth: AuthService,
-    private router: Router
-  ) {
+  constructor(fb: FormBuilder) {
     this.authForm = fb.nonNullable.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
@@ -46,13 +42,19 @@ export class AuthComponent {
     this.error = null;
   }
 
+  // Explicitly get services only where needed
   submit(): void {
     if (this.authForm.invalid) return;
     this.loading = true;
     this.error = null;
+
+    // Lazy load the services to avoid injection in constructor
+    const auth = window['ng'].injector.get(AuthService);
+    const router = window['ng'].injector.get(Router);
+
     const authFn = this.isLoginMode
-      ? this.auth.login(this.authForm.value.email!, this.authForm.value.password!)
-      : this.auth.signUp(this.authForm.value.email!, this.authForm.value.password!);
+      ? auth.login(this.authForm.value.email!, this.authForm.value.password!)
+      : auth.signUp(this.authForm.value.email!, this.authForm.value.password!);
 
     authFn.subscribe({
       next: (res: any) => {
@@ -60,7 +62,7 @@ export class AuthComponent {
         if (res.error) {
           this.error = res.error.message;
         } else {
-          this.router.navigateByUrl('/');
+          router.navigateByUrl('/');
         }
       },
       error: (err: any) => {

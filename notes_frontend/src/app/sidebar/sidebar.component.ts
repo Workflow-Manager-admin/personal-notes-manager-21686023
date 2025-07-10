@@ -1,7 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { AuthService } from '../services/auth.service';
-import { NotesService } from '../services/notes.service';
-import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
@@ -19,7 +16,7 @@ export class SidebarComponent {
 
   constructor() {}
 
-  selectCategory(cat: string | null): void {
+  selectCategory(): void {
     // Router navigation removed since router is not present.
   }
 }

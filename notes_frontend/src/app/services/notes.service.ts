@@ -16,7 +16,7 @@ export interface Note {
   providedIn: 'root'
 })
 export class NotesService {
-  constructor(private supabase: SupabaseService) {}
+  constructor(supabase: SupabaseService) {}
 
   getNotes(userId: string): Observable<Note[]> {
     return from(this.supabase.getClient()

@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { NotesService, Note } from '../../services/notes.service';
 import { AuthService } from '../../services/auth.service';
-import { CommonModule } from '@angular/common';
+import { CommonModule, SlicePipe, DatePipe } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatButtonModule } from '@angular/material/button';
-import { SlicePipe, DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 
 @Component({
@@ -34,14 +33,9 @@ export class NotesListComponent implements OnInit {
   loading = false;
   selectedCategory: string | null = null;
 
-  constructor(
-    private notesService: NotesService,
-    private auth: AuthService,
-    private router: Router
-  ) {}
-
   ngOnInit(): void {
-    this.auth.user$.subscribe((user: any) => {
+    const auth = window['ng'].injector.get(AuthService);
+    auth.user$.subscribe((user: any) => {
       if (!user) return;
       this.loadNotes(user.id);
     });
@@ -49,9 +43,10 @@ export class NotesListComponent implements OnInit {
 
   loadNotes(userId: string, query = '', category: string | null = null): void {
     this.loading = true;
+    const notesService = window['ng'].injector.get(NotesService);
     (query
-      ? this.notesService.searchNotes(userId, query)
-      : this.notesService.getNotes(userId)
+      ? notesService.searchNotes(userId, query)
+      : notesService.getNotes(userId)
     ).subscribe((notes: Note[]) => {
       this.notes = category
         ? notes.filter(n => n.category === category)
@@ -64,12 +59,14 @@ export class NotesListComponent implements OnInit {
     const input = event.target as HTMLInputElement | null;
     const term = input?.value || '';
     this.searchTerm = term;
-    this.auth.user$.subscribe((user: any) => {
+    const auth = window['ng'].injector.get(AuthService);
+    auth.user$.subscribe((user: any) => {
       if (user) this.loadNotes(user.id, term, this.selectedCategory);
     });
   }
 
   selectNote(note: Note): void {
-    this.router.navigate(['/note', note.id]);
+    const router = window['ng'].injector.get(Router);
+    router.navigate(['/note', note.id]);
   }
 }

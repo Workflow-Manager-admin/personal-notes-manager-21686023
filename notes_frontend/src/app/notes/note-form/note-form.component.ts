@@ -30,11 +30,18 @@ export class NoteFormComponent {
   loading = false;
   error: string | null = null;
 
+  notesService: NotesService;
+  auth: AuthService;
+  router: Router;
   constructor(
-    private notesService: NotesService,
-    private auth: AuthService,
-    private router: Router
-  ) {}
+    notesService: NotesService,
+    auth: AuthService,
+    router: Router
+  ) {
+    this.notesService = notesService;
+    this.auth = auth;
+    this.router = router;
+  }
 
   createNote(): void {
     if (!this.title || !this.content) {

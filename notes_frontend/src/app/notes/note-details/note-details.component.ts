@@ -33,20 +33,17 @@ export class NoteDetailsComponent implements OnInit {
   editContent = '';
   editCategory = '';
 
-  constructor(
-    private notesService: NotesService,
-    private route: ActivatedRoute,
-    private router: Router
-  ) {}
-
   ngOnInit(): void {
-    const noteId = this.route.snapshot.paramMap.get('id');
+    // Lazy inject services here
+    const route = window['ng'].injector.get(ActivatedRoute);
+    const noteId = route.snapshot.paramMap.get('id');
     if (noteId) this.loadNote(noteId);
   }
 
   loadNote(id: string): void {
     this.loading = true;
-    this.notesService.getNoteById(id).subscribe((note: Note | null) => {
+    const notesService = window['ng'].injector.get(NotesService);
+    notesService.getNoteById(id).subscribe((note: Note | null) => {
       this.note = note;
       this.loading = false;
     });
@@ -63,7 +60,8 @@ export class NoteDetailsComponent implements OnInit {
   saveEdit(): void {
     if (!this.note) return;
     this.loading = true;
-    this.notesService.updateNote(this.note.id, {
+    const notesService = window['ng'].injector.get(NotesService);
+    notesService.updateNote(this.note.id, {
       title: this.editTitle,
       content: this.editContent,
       category: this.editCategory
@@ -84,8 +82,10 @@ export class NoteDetailsComponent implements OnInit {
     if (!this.note) return;
     if (!(globalThis.confirm('Delete this note?'))) return;
     this.loading = true;
-    this.notesService.deleteNote(this.note.id).subscribe({
-      next: () => this.router.navigateByUrl('/'),
+    const notesService = window['ng'].injector.get(NotesService);
+    const router = window['ng'].injector.get(Router);
+    notesService.deleteNote(this.note.id).subscribe({
+      next: () => router.navigateByUrl('/'),
       error: () => {
         this.error = "Failed to delete note."; this.loading = false;
       }

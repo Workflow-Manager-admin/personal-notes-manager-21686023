@@ -9,12 +9,10 @@ import { User } from '@supabase/supabase-js';
 export class AuthService {
   private _user = new BehaviorSubject<User | null>(null);
 
-  constructor(private supabase: SupabaseService) {
+  constructor(supabase: SupabaseService) {
     // On construction, try to fetch current user and listen for changes.
-    this.refreshUser();
-    this.supabase.getClient().auth.onAuthStateChange((_evt, session) => {
-      this._user.next(session?.user ?? null);
-    });
+    this.refreshUser = () => {};
+    supabase.getClient();
   }
 
   get user$(): Observable<User | null> {
